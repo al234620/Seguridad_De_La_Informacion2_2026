@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block titulo %}Configuración de seguridad{% endblock %}
+{% block contenido %}
+<h1>Configuración de seguridad</h1>
+<form method="post" class="apilado">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  {% for k, rango in ajustes.items() %}
+  <label>{{ k.replace('_', ' ')|capitalize }} ({{ rango[0] }}–{{ rango[1] }})
+    <input type="number" name="{{ k }}" min="{{ rango[0] }}" max="{{ rango[1] }}" value="{{ valores[k] }}" required></label>
+  {% endfor %}
+  <button>Guardar</button>
+</form>
+{% endblock %}

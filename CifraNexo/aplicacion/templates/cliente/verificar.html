@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block titulo %}Verificar comprobante{% endblock %}
+{% block contenido %}
+<h1>Verificar la firma de un comprobante</h1>
+{% if resultado is not none %}
+  <div class="aviso {{ 'ok' if resultado else 'error' }}">{% if resultado %}Firma digital VÁLIDA: el comprobante no fue modificado y lo emitió esta plataforma.{% else %}Firma digital INVÁLIDA: el comprobante fue alterado o no lo emitió esta plataforma.{% endif %}</div>
+{% endif %}
+<form method="post" enctype="multipart/form-data" class="apilado">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Archivo JSON del comprobante <input type="file" name="archivo" accept="application/json"></label>
+  <button>Verificar</button>
+</form>
+{% endblock %}

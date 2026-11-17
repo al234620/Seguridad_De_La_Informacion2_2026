@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block titulo %}Órdenes{% endblock %}
+{% block contenido %}
+<h1>Órdenes (operador)</h1>
+<table><tr><th>#</th><th>Cliente</th><th>Productos</th><th>Total</th><th>Estado</th><th>Fecha</th><th>Actualizar</th></tr>
+{% for o in ordenes %}<tr><td>{{ o.id }}</td><td>{{ o.email }}</td><td>{{ o.n_items }}</td><td>{{ o.total|dinero }}</td><td>{{ o.status }}</td><td>{{ o.created_at }}</td>
+<td><form method="post" action="{{ url_for('operador.orden_estado', oid=o.id) }}" class="enlinea">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<select name="status">{% for e in estados %}<option {{ 'selected' if e == o.status }}>{{ e }}</option>{% endfor %}</select>
+<button class="secundario">OK</button></form></td></tr>{% endfor %}</table>
+{% endblock %}

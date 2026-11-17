@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block titulo %}Catálogo{% endblock %}
+{% block contenido %}
+<h1>Catálogo de productos digitales</h1>
+<div class="rejilla">
+{% for p in productos %}
+  <div class="tarjeta">
+    <h2>{{ p.name }}</h2>
+    <p class="suave">{{ p.description[:140] }}</p>
+    <p class="precio">{{ p.price|dinero }}</p>
+    <a class="boton" href="{{ url_for('publico.producto', pid=p.id) }}">Ver detalle</a>
+  </div>
+{% else %}<p>No hay productos disponibles.</p>{% endfor %}
+</div>
+{% endblock %}

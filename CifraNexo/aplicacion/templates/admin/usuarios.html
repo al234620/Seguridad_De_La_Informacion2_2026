@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% block titulo %}Usuarios{% endblock %}
+{% block contenido %}
+<h1>Usuarios (administrador)</h1>
+<p class="suave">Las contraseñas no son consultables: solo existe su hash Argon2id y no se muestra.</p>
+<table><tr><th>#</th><th>Correo</th><th>Nombre</th><th>Rol</th><th>Estado</th><th>Sesiones</th><th>Último acceso</th><th>Acciones</th></tr>
+{% for u in usuarios %}<tr><td>{{ u.id }}</td><td>{{ u.email }}</td><td>{{ u.name }}</td>
+<td><form method="post" action="{{ url_for('admin.cambiar_rol', uid=u.id) }}" class="enlinea">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<select name="role">{% for r in roles %}<option {{ 'selected' if r == u.role }}>{{ r }}</option>{% endfor %}</select>
+<button class="secundario">Asignar</button></form></td>
+<td>{{ u.status }}{% if u.locked_until %}<br><span class="suave">bloqueo hasta {{ u.locked_until }}</span>{% endif %}</td>
+<td>{{ u.sesiones }}</td><td>{{ u.last_login or '—' }}</td>
+<td><form method="post" action="{{ url_for('admin.cambiar_estado', uid=u.id) }}" class="enlinea">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<input type="hidden" name="status" value="{{ 'DESACTIVADO' if u.status == 'ACTIVO' else 'ACTIVO' }}">
+<button class="{{ 'peligro' if u.status == 'ACTIVO' else '' }}">{{ 'Desactivar' if u.status == 'ACTIVO' else 'Activar' }}</button></form>
+<form method="post" action="{{ url_for('admin.revocar', uid=u.id) }}" class="enlinea">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="secundario">Revocar sesiones</button></form></td></tr>{% endfor %}
+</table>
+{% endblock %}

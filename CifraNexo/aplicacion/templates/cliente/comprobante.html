@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block titulo %}Comprobante {{ c.numero_orden }}{% endblock %}
+{% block contenido %}
+<h1>Comprobante · Orden #{{ c.numero_orden }}</h1>
+<div class="tarjeta">
+  <p>Firma digital: {% if valido %}<span class="valida">VÁLIDA ✔</span>{% else %}<span class="invalida">INVÁLIDA ✘</span>{% endif %}</p>
+  <p><b>Usuario:</b> {{ c.usuario.nombre }} &lt;{{ c.usuario.email }}&gt;</p>
+  <p><b>Fecha:</b> {{ c.fecha }} · <b>Referencia:</b> {{ c.referencia_transaccion }}</p>
+  <table><tr><th>Producto</th><th>Precio</th></tr>
+  {% for p in c.productos %}<tr><td>{{ p.nombre }}</td><td>{{ p.precio_centavos|dinero }}</td></tr>{% endfor %}
+  <tr><th>Total</th><th>{{ c.total_centavos|dinero }}</th></tr></table>
+  <p class="suave">Algoritmo: {{ r.algorithm }} · ID de clave: {{ r.key_id }}</p>
+  <p class="suave">Firma (Base64):</p><pre>{{ r.signature }}</pre>
+  <p><a class="boton" href="{{ url_for('cliente.comprobante_json', oid=c.numero_orden) }}">Descargar comprobante + firma (JSON)</a>
+     <a class="boton" href="{{ url_for('publico.clave_publica') }}">Descargar clave pública</a></p>
+  <p class="suave">Verificación sin conexión: <code>python scripts/verificar_comprobante.py comprobante_orden_{{ c.numero_orden }}.json claves_publicas/firma_publica.pem</code></p>
+</div>
+{% endblock %}

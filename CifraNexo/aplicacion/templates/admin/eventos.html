@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block titulo %}Eventos de seguridad{% endblock %}
+{% block contenido %}
+<h1>Eventos de seguridad</h1>
+<div class="aviso {{ 'ok' if integra else 'error' }}">{% if integra %}Cadena de hashes íntegra ({{ dato }} registros).{% else %}¡Cadena ROTA en el registro #{{ dato }}! La bitácora fue alterada fuera de la aplicación.{% endif %}</div>
+<form method="get" class="enlinea"><select name="evento"><option value="">Todos</option>{% for t in tipos %}<option {{ 'selected' if t == tipo }}>{{ t }}</option>{% endfor %}</select> <button class="secundario">Filtrar</button></form>
+<table class="mt"><tr><th>#</th><th>Fecha (UTC)</th><th>Evento</th><th>Resultado</th><th>Usuario</th><th>Origen</th><th>Detalle</th></tr>
+{% for e in eventos %}<tr><td>{{ e.id }}</td><td>{{ e.created_at }}</td><td>{{ e.event }}</td><td>{{ e.result }}</td><td>{{ e.email or e.user_id or '—' }}</td><td>{{ e.source }}</td><td><code>{{ e.details or '' }}</code></td></tr>{% endfor %}
+</table>
+{% endblock %}

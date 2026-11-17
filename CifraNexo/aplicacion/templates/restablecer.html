@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block titulo %}Nueva contraseña{% endblock %}
+{% block contenido %}
+<h1>Define tu nueva contraseña</h1>
+<form method="post" class="apilado">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Nueva contraseña <input type="password" name="password" required minlength="12" maxlength="128" autocomplete="new-password"></label>
+  <label>Repite la contraseña <input type="password" name="password2" required maxlength="128" autocomplete="new-password"></label>
+  <button>Guardar</button>
+</form>
+{% endblock %}

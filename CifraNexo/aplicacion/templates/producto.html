@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block titulo %}{{ p.name }}{% endblock %}
+{% block contenido %}
+<div class="tarjeta">
+  <h1>{{ p.name }}</h1>
+  <p>{{ p.description }}</p>
+  <p class="precio">{{ p.price|dinero }}</p>
+  <p class="suave">SHA-256 del archivo original: <code>{{ p.file_hash }}</code></p>
+  <p class="suave">Cada copia descargada lleva un fingerprint asociado a tu cuenta y a tu orden.</p>
+  {% if g.user and g.user.role == 'CLIENTE' %}
+  <form method="post" action="{{ url_for('cliente.carrito_agregar', pid=p.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button>Agregar al carrito</button>
+  </form>
+  {% elif not g.user %}<a class="boton" href="{{ url_for('publico.login') }}">Inicia sesión para comprar</a>{% endif %}
+</div>
+{% endblock %}

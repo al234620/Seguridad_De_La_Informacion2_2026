@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block titulo %}Operaciones{% endblock %}
+{% block contenido %}
+<h1>Operaciones relevantes</h1>
+<div class="rejilla">
+<div class="tarjeta"><h2>Usuarios por rol</h2>{% for x in r.usuarios %}<p>{{ x.role }}: <b>{{ x.n }}</b></p>{% endfor %}</div>
+<div class="tarjeta"><h2>Órdenes por estado</h2>{% for x in r.ordenes %}<p>{{ x.status }}: <b>{{ x.n }}</b> ({{ x.total|dinero }})</p>{% endfor %}</div>
+<div class="tarjeta"><h2>Descargas con fingerprint</h2><p><b>{{ r.descargas }}</b></p></div>
+<div class="tarjeta"><h2>Inicios de sesión fallidos (24 h)</h2><p><b>{{ r.fallos_login_24h }}</b></p></div>
+</div>
+{% endblock %}

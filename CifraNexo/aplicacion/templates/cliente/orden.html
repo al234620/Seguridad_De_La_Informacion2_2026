@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block titulo %}Orden {{ o.id }}{% endblock %}
+{% block contenido %}
+<h1>Orden #{{ o.id }} <span class="rol">{{ o.status }}</span></h1>
+<table><tr><th>Producto</th><th>Precio pagado</th><th>Descarga</th></tr>
+{% for i in items %}<tr><td>{{ i.name }}</td><td>{{ i.price|dinero }}</td><td>
+{% if o.status in ('PAGADA','ENTREGADA') %}<a class="boton" href="{{ url_for('cliente.descargar', oid=o.id, pid=i.id) }}">Descargar copia personalizada</a>{% else %}—{% endif %}
+</td></tr>{% endfor %}
+<tr><th>Total</th><th>{{ o.total|dinero }}</th><th></th></tr></table>
+{% if pago %}<p class="suave">Pago simulado: {{ pago.status }} · Referencia {{ pago.transaction_reference }} · {{ pago.created_at }}</p>{% endif %}
+{% if o.status == 'PENDIENTE' %}<a class="boton" href="{{ url_for('cliente.pagar', oid=o.id) }}">Pagar (simulado)</a>{% endif %}
+{% if o.status in ('PAGADA','ENTREGADA') %}<p><a class="boton" href="{{ url_for('cliente.comprobante', oid=o.id) }}">Ver comprobante firmado</a></p>{% endif %}
+{% endblock %}

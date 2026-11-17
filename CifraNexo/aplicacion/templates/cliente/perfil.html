@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block titulo %}Mi perfil{% endblock %}
+{% block contenido %}
+<h1>Mi perfil</h1>
+<div class="tarjeta">
+  <p><b>Correo:</b> {{ u.email }} · <b>Rol:</b> {{ u.role }}</p>
+  <p class="suave">Cuenta creada: {{ u.created_at }} · Último acceso: {{ u.last_login or '—' }}</p>
+  <form method="post" class="apilado">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="accion" value="nombre">
+    <label>Nombre <input name="name" value="{{ u.name }}" required maxlength="80"></label>
+    <button>Guardar nombre</button>
+  </form>
+</div>
+<div class="tarjeta mt">
+  <h2>Cambiar contraseña</h2>
+  <form method="post" class="apilado">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="accion" value="password">
+    <label>Contraseña actual <input type="password" name="actual" required autocomplete="current-password"></label>
+    <label>Nueva contraseña <input type="password" name="nueva" required minlength="12" maxlength="128" autocomplete="new-password"></label>
+    <button>Cambiar</button>
+  </form>
+</div>
+{% endblock %}

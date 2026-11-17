@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block titulo %}Productos{% endblock %}
+{% block contenido %}
+<h1>Catálogo (operador)</h1>
+<p><a class="boton" href="{{ url_for('operador.producto_nuevo') }}">Registrar producto</a></p>
+<table><tr><th>#</th><th>Nombre</th><th>Precio</th><th>Estado</th><th>SHA-256</th><th></th></tr>
+{% for p in productos %}<tr><td>{{ p.id }}</td><td>{{ p.name }}</td><td>{{ p.price|dinero }}</td><td>{{ p.status }}</td>
+<td><code>{{ p.file_hash[:16] }}…</code></td>
+<td><a href="{{ url_for('operador.producto_editar', pid=p.id) }}">Editar</a>
+<form method="post" action="{{ url_for('operador.producto_estado', pid=p.id) }}" class="enlinea">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<input type="hidden" name="status" value="{{ 'INACTIVO' if p.status == 'ACTIVO' else 'ACTIVO' }}">
+<button class="secundario">{{ 'Desactivar' if p.status == 'ACTIVO' else 'Activar' }}</button></form></td></tr>{% endfor %}
+</table>
+{% endblock %}

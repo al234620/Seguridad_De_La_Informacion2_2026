@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block titulo %}Sesiones{% endblock %}
+{% block contenido %}
+<h1>Sesiones</h1>
+<table><tr><th>ID (hash)</th><th>Usuario</th><th>Inicio</th><th>Última actividad</th><th>Expira</th><th>IP</th><th>Estado</th></tr>
+{% for s in sesiones %}<tr><td><code>{{ s.sid }}…</code></td><td>{{ s.email }}</td><td>{{ s.created_at }}</td><td>{{ s.last_seen }}</td><td>{{ s.expires_at }}</td><td>{{ s.ip }}</td><td>{{ 'REVOCADA' if s.revoked else 'ACTIVA' }}</td></tr>{% endfor %}
+</table>
+{% endblock %}

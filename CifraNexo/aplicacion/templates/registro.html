@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block titulo %}Registro{% endblock %}
+{% block contenido %}
+<h1>Crear cuenta</h1>
+<form method="post" class="apilado">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <label>Nombre <input name="name" required maxlength="80"></label>
+  <label>Correo <input type="email" name="email" required maxlength="254" autocomplete="username"></label>
+  <label>Contraseña (mín. 12, letras y números) <input type="password" name="password" required minlength="12" maxlength="128" autocomplete="new-password"></label>
+  <label>Repite la contraseña <input type="password" name="password2" required maxlength="128" autocomplete="new-password"></label>
+  <button>Registrarme</button>
+</form>
+{% endblock %}

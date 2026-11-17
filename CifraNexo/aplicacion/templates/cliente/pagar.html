@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block titulo %}Pago simulado{% endblock %}
+{% block contenido %}
+<h1>Pago simulado · Orden #{{ o.id }}</h1>
+<div class="tarjeta">
+  <p>Total: <span class="precio">{{ o.total|dinero }}</span></p>
+  <p class="suave">Este módulo NO procesa pagos reales ni solicita datos de tarjeta. Elige el resultado que quieres simular.</p>
+  <form method="post" class="apilado">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Resultado de la transacción
+      <select name="resultado"><option value="APROBADO">Aprobar</option><option value="RECHAZADO">Rechazar</option></select>
+    </label>
+    <button>Simular pago</button>
+  </form>
+</div>
+{% endblock %}

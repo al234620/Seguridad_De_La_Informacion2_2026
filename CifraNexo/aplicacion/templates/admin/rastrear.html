@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% block titulo %}Rastrear copia{% endblock %}
+{% block contenido %}
+<h1>Rastrear una copia sospechosa</h1>
+<p class="suave">Sube un PDF encontrado fuera de la plataforma. Se extrae el fingerprint, se valida su HMAC y se identifica al usuario y la orden.</p>
+<form method="post" enctype="multipart/form-data" class="apilado">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <input type="file" name="archivo" accept="application/pdf" required>
+  <button>Analizar</button>
+</form>
+{% if resultados is not none %}
+  {% if not resultados %}<div class="aviso error">No se encontró ningún fingerprint.</div>{% endif %}
+  {% for r in resultados %}
+  <div class="tarjeta mt">
+    <p><code>{{ r.codigo }}</code> · MAC {% if r.mac_valida %}<span class="valida">válida</span>{% else %}<span class="invalida">inválida (falsificada)</span>{% endif %}</p>
+    {% if r.descarga %}<p><b>Usuario:</b> {{ r.descarga.name }} &lt;{{ r.descarga.email }}&gt; (id {{ r.descarga.user_id }}) · <b>Orden:</b> #{{ r.descarga.order_id }} · <b>Producto:</b> {{ r.descarga.producto }} · <b>Descargado:</b> {{ r.descarga.created_at }} desde {{ r.descarga.ip }}</p>{% endif %}
+  </div>
+  {% endfor %}
+{% endif %}
+{% endblock %}
