@@ -190,6 +190,3 @@ No se incluyen las claves simétricas de `secretos/` en los respaldos cifrados: 
 - No se implementa IPSec desde cero; se describe su uso como alternativa de diseño, según el alcance autorizado.
 - Solo PDFs. El fingerprint invisible no resiste convertir cada página a imágenes, y una marca visible puede recortarse.
 
-## Subir el código a GitHub
-
-Esta versión del repositorio **no incluye** la base de datos, las claves ni los certificados de la computadora servidor. Para ver la lista de exclusiones, instrucciones de regeneración y comandos de publicación, consulta [`PUBLICAR_EN_GITHUB.md`](PUBLICAR_EN_GITHUB.md).
